@@ -1,0 +1,31 @@
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        r2dbc: DEBUG
+
+aspect:
+  enabled: true
+
+spring:
+  codec:
+    max-in-memory-size: 10MB
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/ext_api_db
+    username: postgres
+    password: postgres
+
+api:
+  external:
+    ref-data-url: https://api.iex.cloud/v1/data/CORE/REF_DATA?token=%s
+    stock-data-url: https://api.iex.cloud/v1/data/core/quote/%s?token=%s
+    token: pk_02f32cc69c4e450089b05510a54b30e9
+  database:
+    host: localhost
+    port: 5432
+    name: ext_api_db
+    username: postgres
+    password: postgres
+
+service:
+  number-of-companies: 200
