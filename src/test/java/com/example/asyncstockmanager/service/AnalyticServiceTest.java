@@ -1,13 +1,14 @@
-package com.ihorshulha.asyncapidatamanager.service;
+package com.example.asyncstockmanager.service;
 
-import com.ihorshulha.asyncapidatamanager.BaseAbstractTest;
-import com.ihorshulha.asyncapidatamanager.entity.Stock;
-import com.ihorshulha.asyncapidatamanager.repository.StockRepository;
+import com.example.asyncstockmanager.BaseAbstractTest;
+import com.example.asyncstockmanager.entity.Stock;
+import com.example.asyncstockmanager.repository.StockRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import reactor.core.publisher.Flux;
-import static org.assertj.core.api.Assertions.assertThat;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
 
 public class AnalyticServiceTest extends BaseAbstractTest {

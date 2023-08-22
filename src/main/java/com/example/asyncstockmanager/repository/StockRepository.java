@@ -1,7 +1,7 @@
-package com.ihorshulha.asyncapidatamanager.repository;
+package com.example.asyncstockmanager.repository;
 
 
-import com.ihorshulha.asyncapidatamanager.entity.Stock;
+import com.example.asyncstockmanager.entity.Stock;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import org.springframework.stereotype.Repository;

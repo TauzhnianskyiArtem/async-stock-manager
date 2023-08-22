@@ -1,12 +1,12 @@
-package com.ihorshulha.asyncapidatamanager.job;
+package com.example.asyncstockmanager.job;
 
-import com.ihorshulha.asyncapidatamanager.service.AnalyticService;
+import com.example.asyncstockmanager.service.AnalyticService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component

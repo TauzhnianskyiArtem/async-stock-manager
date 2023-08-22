@@ -1,8 +1,8 @@
-package com.ihorshulha.asyncapidatamanager.util;
+package com.example.asyncstockmanager.util;
 
-import com.ihorshulha.asyncapidatamanager.BaseAbstractTest;
-import com.ihorshulha.asyncapidatamanager.client.ExApiExchangeClient;
-import com.ihorshulha.asyncapidatamanager.dto.CompanyDTO;
+import com.example.asyncstockmanager.BaseAbstractTest;
+import com.example.asyncstockmanager.client.ExApiExchangeClient;
+import com.example.asyncstockmanager.dto.CompanyDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

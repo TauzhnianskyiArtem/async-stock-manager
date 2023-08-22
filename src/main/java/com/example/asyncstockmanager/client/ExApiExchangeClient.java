@@ -1,8 +1,9 @@
-package com.ihorshulha.asyncapidatamanager.client;
+package com.example.asyncstockmanager.client;
 
-import com.ihorshulha.asyncapidatamanager.dto.CompanyDTO;
-import com.ihorshulha.asyncapidatamanager.dto.StockDto;
-import com.ihorshulha.asyncapidatamanager.util.TrackExecutionTime;
+import com.example.asyncstockmanager.dto.CompanyDTO;
+import com.example.asyncstockmanager.dto.StockDto;
+import com.example.asyncstockmanager.exception.WrongExecuteException;
+import com.example.asyncstockmanager.util.TrackExecutionTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,10 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
-
-import static com.ihorshulha.asyncapidatamanager.util.IgnoreRuntimeException.ignoredException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -35,7 +37,8 @@ public class ExApiExchangeClient {
 
     public List<CompanyDTO> getCompanies() {
         List<CompanyDTO> companies = new ArrayList<>();
-        ParameterizedTypeReference<List<CompanyDTO>> typeRef = new ParameterizedTypeReference<>() {};
+        ParameterizedTypeReference<List<CompanyDTO>> typeRef = new ParameterizedTypeReference<>() {
+        };
 
         List<CompanyDTO> dtos = Optional.of(restTemplate.exchange(String.format(refDataUrl, token), HttpMethod.GET, null, typeRef))
                 .filter(response -> (response.getStatusCode().is2xxSuccessful() && Objects.nonNull(response.getBody())))
@@ -46,21 +49,20 @@ public class ExApiExchangeClient {
     }
 
     @TrackExecutionTime
-    public Optional<StockDto> getOneCompanyStock(String url) {
-        AtomicReference<Optional<StockDto>> result = new AtomicReference<>(Optional.empty());
+    public CompletableFuture<StockDto> getOneCompanyStock(String url) {
 
-        ignoredException(() -> {
-                    ResponseEntity<StockDto[]> response = restTemplate.exchange(url, HttpMethod.GET, null, StockDto[].class);
+        return CompletableFuture.supplyAsync(() -> {
+            ResponseEntity<StockDto[]>
+                    response = restTemplate.exchange(url, HttpMethod.GET, null, StockDto[].class);
 
-                    if (response.getStatusCode().is2xxSuccessful() && Objects.nonNull(response.getBody())) {
-                        result.set(Optional.ofNullable(response.getBody()[0]));
-                        log.debug("Response received status {} and number of stock {}", response.getStatusCode(), response.getBody().length);
-                    } else {
-                        log.debug("Response received status {}", response.getStatusCode());
-                    }
-                }
-        );
-        return result.get();
+            if (response.getStatusCode().is2xxSuccessful() && Objects.nonNull(response.getBody())) {
+                log.debug("Response received status {} and number of stock {}", response.getStatusCode(), response.getBody().length);
+                return response.getBody()[0];
+            } else {
+                log.debug("Response received status {}", response.getStatusCode());
+                throw new WrongExecuteException("Wrong execute Exception: {}", url);
+            }
+        });
     }
 
     public String getStocksUrl(String symbol) {

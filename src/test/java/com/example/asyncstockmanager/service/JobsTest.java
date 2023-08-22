@@ -1,9 +1,9 @@
-package com.ihorshulha.asyncapidatamanager.service;
+package com.example.asyncstockmanager.service;
 
-import com.ihorshulha.asyncapidatamanager.BaseAbstractTest;
-import com.ihorshulha.asyncapidatamanager.job.AnalyticDataJob;
-import com.ihorshulha.asyncapidatamanager.job.ProcessDataJob;
-import com.ihorshulha.asyncapidatamanager.repository.CustomRepositoryImpl;
+import com.example.asyncstockmanager.BaseAbstractTest;
+import com.example.asyncstockmanager.job.AnalyticDataJob;
+import com.example.asyncstockmanager.job.ProcessDataJob;
+import com.example.asyncstockmanager.repository.CustomRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -11,9 +11,8 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.awaitility.Awaitility.*;
+import static org.awaitility.Awaitility.await;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
 
 @SpringBootTest(properties = "scheduling.enabled=true")
 public class JobsTest extends BaseAbstractTest {

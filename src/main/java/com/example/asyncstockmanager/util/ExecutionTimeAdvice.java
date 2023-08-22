@@ -1,4 +1,4 @@
-package com.ihorshulha.asyncapidatamanager.util;
+package com.example.asyncstockmanager.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -17,14 +17,12 @@ import java.text.MessageFormat;
 @ConditionalOnExpression("${aspect.enabled:true}")
 public class ExecutionTimeAdvice {
 
-    private final static Logger logger = LoggerFactory.getLogger(ExecutionTimeAdvice.class);
-
-    @Around("@annotation(com.ihorshulha.asyncapidatamanager.util.TrackExecutionTime)")
+    @Around("@annotation(com.example.asyncstockmanager.util.TrackExecutionTime)")
     public Object executionTime(ProceedingJoinPoint point) throws Throwable {
         long startTime = System.nanoTime();
         Object object = point.proceed();
         long endTime = System.nanoTime();
-        logger.info(MessageFormat.format("Method Name: {0}. Thread {1}. Time taken for execution is : {2}seconds",
+        log.info(MessageFormat.format("Method Name: {0}. Thread {1}. Time taken for execution is : {2}seconds",
                 point.getSignature().getName(), Thread.currentThread().getId(),
                 (double) (endTime - startTime) / 1_000_000_000.0));
         return object;

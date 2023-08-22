@@ -1,4 +1,4 @@
-package com.ihorshulha.asyncapidatamanager.config;
+package com.example.asyncstockmanager.config;
 
 import io.r2dbc.spi.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,13 +1,13 @@
-package com.ihorshulha.asyncapidatamanager.service;
+package com.example.asyncstockmanager.service;
 
-import com.ihorshulha.asyncapidatamanager.dto.CompanyDTO;
-import com.ihorshulha.asyncapidatamanager.dto.StockDto;
-import com.ihorshulha.asyncapidatamanager.entity.Company;
-import com.ihorshulha.asyncapidatamanager.entity.Stock;
-import com.ihorshulha.asyncapidatamanager.mapper.CompanyMapper;
-import com.ihorshulha.asyncapidatamanager.mapper.StockMapper;
-import com.ihorshulha.asyncapidatamanager.client.ExApiExchangeClient;
-import com.ihorshulha.asyncapidatamanager.client.QueueClient;
+import com.example.asyncstockmanager.client.ExApiExchangeClient;
+import com.example.asyncstockmanager.client.QueueClient;
+import com.example.asyncstockmanager.dto.CompanyDTO;
+import com.example.asyncstockmanager.dto.StockDto;
+import com.example.asyncstockmanager.entity.Company;
+import com.example.asyncstockmanager.entity.Stock;
+import com.example.asyncstockmanager.mapper.CompanyMapper;
+import com.example.asyncstockmanager.mapper.StockMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,17 +47,10 @@ public class DataProcessingService {
 
     public List<Stock> getStocksData() {
         List<CompletableFuture<Stock>> futures = queueClient.getCompanyQueue().stream()
-                .map(task -> CompletableFuture.supplyAsync(() -> {
-                    Optional<StockDto> oneCompanyStock = apiClient.getOneCompanyStock(task);
-                    StockDto stockDto = oneCompanyStock.orElse(null);
-                    return stockMapper.stockDtoToStock(stockDto);
-                }))
+                .map(task -> apiClient.getOneCompanyStock(task)
+                        .thenApplyAsync(stockMapper::stockDtoToStock))
                 .toList();
 
-        return CompletableFuture.allOf(futures.toArray(new CompletableFuture<?>[0]))
-                .thenApply(v -> futures.stream()
-                        .map(CompletableFuture::join)
-                        .toList())
-                .join();
+        return futures.stream().map(CompletableFuture::join).toList();
     }
 }

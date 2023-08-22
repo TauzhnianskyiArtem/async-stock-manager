@@ -1,4 +1,4 @@
-package com.ihorshulha.asyncapidatamanager.client;
+package com.example.asyncstockmanager.client;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

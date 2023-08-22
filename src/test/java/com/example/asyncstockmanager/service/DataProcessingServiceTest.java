@@ -1,4 +1,4 @@
-//package com.ihorshulha.asyncapidatamanager.service;
+package com.example.asyncstockmanager.service;//package com.ihorshulha.asyncapidatamanager.service;
 //
 //import com.ihorshulha.asyncapidatamanager.BaseAbstractTest;
 //import com.ihorshulha.asyncapidatamanager.dto.CompanyDTO;

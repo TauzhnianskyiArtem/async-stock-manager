@@ -1,8 +1,8 @@
-package com.ihorshulha.asyncapidatamanager;
+package com.example.asyncstockmanager;
 
-import com.ihorshulha.asyncapidatamanager.mapper.CompanyMapper;
-import com.ihorshulha.asyncapidatamanager.mapper.StockMapper;
-import com.ihorshulha.asyncapidatamanager.client.QueueClient;
+import com.example.asyncstockmanager.client.QueueClient;
+import com.example.asyncstockmanager.mapper.CompanyMapper;
+import com.example.asyncstockmanager.mapper.StockMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;

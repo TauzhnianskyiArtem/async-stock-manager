@@ -1,4 +1,4 @@
-package com.ihorshulha.asyncapidatamanager.dto;
+package com.example.asyncstockmanager.dto;
 
 
 import org.springframework.data.annotation.Id;

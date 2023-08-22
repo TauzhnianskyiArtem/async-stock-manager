@@ -1,6 +1,6 @@
-package com.ihorshulha.asyncapidatamanager.service;
+package com.example.asyncstockmanager.service;
 
-import com.ihorshulha.asyncapidatamanager.repository.StockRepository;
+import com.example.asyncstockmanager.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;

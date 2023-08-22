@@ -1,7 +1,7 @@
-package com.ihorshulha.asyncapidatamanager.mapper;
+package com.example.asyncstockmanager.mapper;
 
-import com.ihorshulha.asyncapidatamanager.dto.StockDto;
-import com.ihorshulha.asyncapidatamanager.entity.Stock;
+import com.example.asyncstockmanager.dto.StockDto;
+import com.example.asyncstockmanager.entity.Stock;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

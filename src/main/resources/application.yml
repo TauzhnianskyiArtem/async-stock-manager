@@ -1,9 +1,3 @@
-#logging:
-#  level:
-#    org:
-#      springframework:
-#        r2dbc: DEBUG
-
 aspect:
   enabled: true
 
@@ -11,7 +5,7 @@ spring:
   codec:
     max-in-memory-size: 10MB
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/ext_api_db
+    url: r2dbc:postgresql://localhost:5444/ext_api_db
     username: postgres
     password: postgres
 
