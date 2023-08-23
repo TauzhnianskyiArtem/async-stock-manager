@@ -24,10 +24,9 @@ public class ProcessDataJob {
                 .join();
     }
 
-    @Scheduled(fixedDelay = 5000, initialDelay = 1000)
+    @Scheduled(fixedDelay = 20000, initialDelay = 1000)
     public void runProcessingStockDataJob() {
         CompletableFuture.supplyAsync(dataProcessingService::getStocksData)
-                .thenAccept(customRepository::saveStocks)
-                .join();
+                .thenAccept(customRepository::saveStocks);
     }
 }

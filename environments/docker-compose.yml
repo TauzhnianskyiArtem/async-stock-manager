@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:14.1-alpine
+    container_name: db
+    restart: on-failure
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: password
+    ports:
+      - '5433:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+    healthcheck:
+      test: pg_isready -Utest_user
+      interval: 1s
+      timeout: 1s
+      retries: 5
+volumes:
+  db: { }

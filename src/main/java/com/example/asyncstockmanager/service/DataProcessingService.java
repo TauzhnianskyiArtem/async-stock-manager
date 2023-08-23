@@ -3,7 +3,6 @@ package com.example.asyncstockmanager.service;
 import com.example.asyncstockmanager.client.ExApiExchangeClient;
 import com.example.asyncstockmanager.client.QueueClient;
 import com.example.asyncstockmanager.dto.CompanyDTO;
-import com.example.asyncstockmanager.dto.StockDto;
 import com.example.asyncstockmanager.entity.Company;
 import com.example.asyncstockmanager.entity.Stock;
 import com.example.asyncstockmanager.mapper.CompanyMapper;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 
@@ -46,8 +44,8 @@ public class DataProcessingService {
     }
 
     public List<Stock> getStocksData() {
-        List<CompletableFuture<Stock>> futures = queueClient.getCompanyQueue().stream()
-                .map(task -> apiClient.getOneCompanyStock(task)
+        List<CompletableFuture<Stock>> futures = queueClient.getCompanyQueue().stream().limit(10)
+                .map(task -> CompletableFuture.supplyAsync(() -> apiClient.getOneCompanyStock(task))
                         .thenApplyAsync(stockMapper::stockDtoToStock))
                 .toList();
 

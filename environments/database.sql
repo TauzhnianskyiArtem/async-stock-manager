@@ -1,0 +1,3 @@
+CREATE DATABASE ext_api_db ENCODING 'UTF8';
+CREATE USER test_user WITH PASSWORD 'password';
+GRANT ALL PRIVILEGES ON DATABASE ext_api_db TO test_user;
