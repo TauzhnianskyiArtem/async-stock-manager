@@ -1,13 +1,13 @@
 package com.example.asyncstockmanager.service;
 
-import com.example.asyncstockmanager.BaseAbstractTest;
-import com.example.asyncstockmanager.job.AnalyticDataJob;
-import com.example.asyncstockmanager.job.ProcessDataJob;
-import com.example.asyncstockmanager.repository.CustomRepositoryImpl;
+import com.ihorshulha.stockinfo.BaseAbstractTest;
+import com.ihorshulha.stockinfo.job.AnalyticDataJob;
+import com.ihorshulha.stockinfo.job.ProcessDataJob;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import reactor.core.publisher.Mono;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,15 +24,12 @@ public class JobsTest extends BaseAbstractTest {
     private DataProcessingService dataProcessingService;
     @MockBean
     private AnalyticService analyticService;
-    @MockBean
-    private CustomRepositoryImpl customRepository;
-
 
     @Test
     public void scheduleOnStartupTest() {
         await()
                 .pollDelay(1000, TimeUnit.MILLISECONDS)
-                .untilAsserted(() -> verify(processingDataJob, atMostOnce()).onStartupProcessingCompanyDataJob());
+                .untilAsserted(() -> verify(processingDataJob, atMostOnce()).runProcessingCompanyDataJob());
     }
 
     @Test
@@ -50,25 +47,22 @@ public class JobsTest extends BaseAbstractTest {
     }
 
     @Test
-    public void callOnStartupTest(){
-        processingDataJob.onStartupProcessingCompanyDataJob();
-
-        verify(dataProcessingService, atLeastOnce()).getCompaniesData();
-        verify(customRepository, atLeastOnce()).saveCompanies(anyList());
+    public void callOnStartupTest() {
+        when(dataProcessingService.processingCompanyData()).thenReturn(Mono.empty());
+        processingDataJob.runProcessingCompanyDataJob();
+        verify(dataProcessingService, atLeastOnce()).processingCompanyData();
     }
 
     @Test
-    public void callGetStockDataTest(){
+    public void callGetStockDataTest() {
+        when(dataProcessingService.processingStockData()).thenReturn(Mono.empty());
         processingDataJob.runProcessingStockDataJob();
-
-        verify(dataProcessingService, atLeastOnce()).getStocksData();
-        verify(customRepository, atLeastOnce()).saveStocks(anyList());
+        verify(dataProcessingService, atLeastOnce()).processingStockData();
     }
 
     @Test
-    public void callGetAnalyticDataTest(){
+    public void callGetAnalyticDataTest() {
         analyticsDataJob.runAnalyticsJob();
-
         verify(analyticService, atLeastOnce()).getTopFiveStockPrice();
         verify(analyticService, atLeastOnce()).getTopFiveDeltaStocksPrice();
     }

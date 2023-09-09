@@ -7,27 +7,24 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Persistable;
-import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.io.Serial;
 import java.io.Serializable;
 
 @Data
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "company")
+@Table("company")
 public class Company implements Persistable<Integer>, Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column("id")
     private Integer id;
 
-    @Column("symbol")
     private String symbol;
 
     @Transient
